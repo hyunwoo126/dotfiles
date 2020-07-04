@@ -14,7 +14,17 @@ learning vim!
 
 ### Instructions
 #### YouCompleteMe:
-After :PlugInstall,
+
+1. create undo directory
+```
+mkdir ~/.vim/undodir -p
+```
+
+2. install plug: https://github.com/junegunn/vim-plug
+
+3. open vim and run `:PlugInstall`
+
+4. YouCompleteMe install
 ```
 $ cd ~/.vim/plugged/YouCompleteMe
 $ ./install.py

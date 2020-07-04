@@ -8,6 +8,8 @@ Inspirations:
   - https://github.com/erkrnt/awesome-streamerrc/blob/master/ThePrimeagen/init.vim
 
 
+vim cheatsheet:
+http://www.viemu.com/vi-vim-cheat-sheet.gif
 
 ----
 

@@ -1,22 +1,32 @@
-alias lsa="ls -a"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ls='ls -GFh'
 
-PATH="/usr/local/bin:$(getconf PATH)"
 
 alias reload='source ~/.bash_profile'
 alias ep='code ~/.bash_profile'
 
 alias gp='git remote prune origin; git pull'
 
+alias ports='ps aux'
 
-export COMFY_PATH="/Users/skypark/Documents/Comfy"
-export CORDOVA_PATH="$COMFY_PATH/CordovaApp"
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+PATH="/usr/local/bin:$(getconf PATH)"
 
 export CLICOLOR=1
 export LSCOLORS=gxfxcxdxbxegedabagacad
-alias ls='ls -GFh'
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+
 
 
 
@@ -27,137 +37,68 @@ parse_git_branch() {
 
 }
 
-export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+#export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 # ******************************************************************
-
-# *********** Go ************
-
-export GOPATH="$HOME/go"
-export GOBIN="$GOPATH/bin"
-export PATH="$GOBIN:$PATH"
-
-# ***************************
-
-alias cdsdk='cd $GOPATH/src/github.com/BuildingRobotics/comfy-sdk'
-
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-
-# export DYLD_FALLBACK_LIBRARY_PATH=$HOME/anaconda/lib/:$DYLD_FALLBACK_LIBRARY_PATH
+git_branch_prompt="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 
 
-export WORKON_HOME=$HOME/.virtualenvs
-#export PROJECT_HOME=$HOME/Devel
-source /usr/local/bin/virtualenvwrapper.sh
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export NODE_ENV=development
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
 
 
-export LDFLAGS="-L/opt/local/lib"
-export CPPFLAGS="-I/opt/local/include/openssl"
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
 
-source ~/git-completion.bash
-
-export HELM_HOME=~/.helm
-
-export PATH="$HOME/.poetry/bin:$PATH"
-
-rpc() {
-    workon comfy
-    cd ~/documents/comfy/comfy
-    API_MODE=True python manage.py rpc_server
-}
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
 
 
-cprep() {
-    cd $CORDOVA_PATH
-    rm -rf platforms/ plugins/
-    cordova prepare
-}
 
-alias buildios='cd $COMFY_PATH; ./build_app.sh -sa -d'
 
-alias ports='ps aux'
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+
 
 
 fork() {
     open $1 -a /Applications/Fork.app
 }
 
-summary() {
-    curl --location --request GET 'localhost:8080/v1/temperature/requests/summary'
-}
-
-ksn() {
-    kubectl config set-context $(kubectl config current-context) --namespace=$1
-}
-ksc() {
-    kubectl config use-context $1
-}
-get-pod-name-by-service() {
-  kubectl get pods -l service=$1 -o jsonpath='{.items[0].metadata.name}' | head -n 1
-}
-generate-staging-links() {
-  ksc prod.aws.uswest1.k8s.local
-  ksn staging
-  POD=$(get-pod-name-by-service dash)
-  kubectl exec -it $POD -- python dashboards/urls.py
-}
 
 
-# ****************** nvm ******************
-# look for version defined in .nvmrc
-# and automatically set node version on visiting a directory
-
-find-up () {
-    path=$(pwd)
-    while [[ "$path" != "" && ! -e "$path/$1" ]]; do
-        path=${path%/*}
-    done
-    echo "$path"
-}
-
-cdnvm(){
-    cd "$@";
-    nvm_path=$(find-up .nvmrc | tr -d '[:space:]')
-
-    # If there are no .nvmrc file, use the default nvm version
-    if [[ ! $nvm_path = *[^[:space:]]* ]]; then
-
-        declare default_version;
-        default_version=$(nvm version default);
-
-        # If there is no default version, set it to `node`
-        # This will use the latest version on your machine
-        if [[ $default_version == "N/A" ]]; then
-            nvm alias default node;
-            default_version=$(nvm version default);
-        fi
-
-        # If the current version is not the default version, set it to use the default version
-        if [[ $(nvm current) != "$default_version" ]]; then
-            nvm use default;
-        fi
-
-        elif [[ -s $nvm_path/.nvmrc && -r $nvm_path/.nvmrc ]]; then
-        declare nvm_version
-        nvm_version=$(<"$nvm_path"/.nvmrc)
-
-        declare locally_resolved_nvm_version
-        # `nvm ls` will check all locally-available versions
-        # If there are multiple matching versions, take the latest one
-        # Remove the `->` and `*` characters and spaces
-        # `locally_resolved_nvm_version` will be `N/A` if no local versions are found
-        locally_resolved_nvm_version=$(nvm ls --no-colors "$nvm_version" | tail -1 | tr -d '\->*' | tr -d '[:space:]')
-
-        # If it is not already installed, install it
-        # `nvm install` will implicitly use the newly-installed version
-        if [[ "$locally_resolved_nvm_version" == "N/A" ]]; then
-            nvm install "$nvm_version";
-        elif [[ $(nvm current) != "$locally_resolved_nvm_version" ]]; then
-            nvm use "$nvm_version";
-        fi
-    fi
-}
-alias cd='cdnvm'
-# ****************** nvm end *****************

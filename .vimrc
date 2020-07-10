@@ -41,6 +41,7 @@ Plug 'preservim/nerdcommenter'
 Plug 'leafoftree/vim-vue-plugin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
+Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
@@ -87,6 +88,10 @@ nnoremap <leader>p :Lex<CR>
 nnoremap <leader>+ :vertical resize +5<CR>
 nnoremap <leader>- :vertical resize -5<CR>
 nnoremap <leader>= <C-w>=
+
+" stay in visual mode when indenting
+vnoremap < <gv
+vnoremap > >gv
 
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>

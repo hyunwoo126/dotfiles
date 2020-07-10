@@ -39,6 +39,8 @@ Plug 'mbbill/undotree'
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdcommenter'
 Plug 'leafoftree/vim-vue-plugin'
+Plug 'jiangmiao/auto-pairs'
+Plug 'Yggdroot/indentLine'
 
 call plug#end()
 

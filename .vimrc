@@ -33,7 +33,7 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-utils/vim-man'
 Plug 'git@github.com:Valloric/YouCompleteMe.git'
-Plug 'jremmen/vim-ripgrep'
+" Plug 'jremmen/vim-ripgrep'
 Plug 'git@github.com:kien/ctrlp.vim.git'
 Plug 'mbbill/undotree'
 Plug 'airblade/vim-gitgutter'
@@ -42,6 +42,9 @@ Plug 'leafoftree/vim-vue-plugin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
+Plug 'junegunn/fzf', {'do': { -> fzf#install()  }}
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
 
 call plug#end()
 
@@ -105,3 +108,23 @@ nmap <Leader>hu <Plug>GitGutterRevertHunk
 
 
 :autocmd InsertEnter,InsertLeave * set cul!
+
+
+" ----- FZF --------
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
+let g:fzf_colors = {
+    \ 'fg':      ['fg', 'GruvboxGray'],
+    \ 'bg':      ['bg', 'Normal'],
+    \ 'hl':      ['fg', 'GruvboxRed'],
+    \ 'fg+':     ['fg', 'GruvboxGreen'],
+    \ 'bg+':     ['bg', 'GruvboxBg1'],
+    \ 'hl+':     ['fg', 'GruvboxRed'],
+    \ 'info':    ['fg', 'GruvboxOrange'],
+    \ 'prompt':  ['fg', 'GruvboxBlue'],
+    \ 'header':  ['fg', 'GruvboxBlue'],
+    \ 'pointer': ['fg', 'Error'],
+    \ 'marker':  ['fg', 'Error'],
+    \ 'spinner': ['fg', 'Statement'],
+    \}
+"----- FZF END -----

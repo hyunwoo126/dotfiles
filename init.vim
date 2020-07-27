@@ -1,3 +1,6 @@
+" make vim external command :! work with .bashrc
+set shellcmdflag=-ic
+
 syntax on
 filetype plugin indent on
 

@@ -142,9 +142,9 @@ vnoremap > >gv
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>
 
-command Reload :so $MYVIMRC
-command Light :colorscheme github | :set background=light
-command Dark :colorscheme gruvbox | :set background=dark
+command! Reload :so $MYVIMRC
+command! Light :colorscheme github | :set background=light
+command! Dark :colorscheme gruvbox | :set background=dark
 
 " nmap <Leader>ha <Plug>GitGutterStageHunk
 " nmap <Leader>hu <Plug>GitGutterRevertHunk

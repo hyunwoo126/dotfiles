@@ -1,4 +1,5 @@
 syntax on
+filetype plugin indent on
 
 set guicursor=
 set noshowmatch
@@ -6,10 +7,12 @@ set relativenumber
 set nohlsearch
 set hidden
 set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
 set expandtab
 set smartindent
+set tabstop=4 softtabstop=4 shiftwidth=4
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd BufRead,BufNewFile *.vue setlocal shiftwidth=2 tabstop=2
+
 set nu
 set nowrap
 set smartcase
@@ -34,11 +37,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-utils/vim-man'
 Plug 'git@github.com:Valloric/YouCompleteMe.git'
 " Plug 'jremmen/vim-ripgrep'
-Plug 'git@github.com:kien/ctrlp.vim.git'
 Plug 'mbbill/undotree'
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdcommenter'
-Plug 'leafoftree/vim-vue-plugin'
+" Plug 'leafoftree/vim-vue-plugin'
+Plug 'posva/vim-vue'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
@@ -46,12 +49,23 @@ Plug 'junegunn/fzf', {'do': { -> fzf#install()  }}
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
 
+" Plug 'sheerun/vim-polyglot'
+" Plug 'vim-python/python-syntax'
+Plug 'ap/vim-css-color'
+Plug 'vim-syntastic/syntastic'
+" Plug 'dense-analysis/ale'
+Plug 'nightsense/simplifysimplify'
+Plug 'cormacrelf/vim-colors-github'
+Plug 'tpope/vim-surround'
+ 
 call plug#end()
 
 let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_contrast_light = 'hard'
-colorscheme gruvbox
-set background=dark
+" colorscheme gruvbox
+colorscheme github
+let g:airline_theme = 'github'
+set background=light
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -82,6 +96,35 @@ vnoremap <leader>/ :call NERDComment(0,"toggle")<CR>
 let g:vim_vue_plugin_use_sass = 1
 let g:vim_vue_plugin_highlight_vue_attr = 1
 
+let g:vue_pre_processors = ['scss']
+
+let g:indentLine_setColors = 0
+
+let g:python_highlight_all = 1
+ " let g:python_highlight_indent_errors = 0
+" let g:python_highlight_space_errors = 0
+" let g:python_highlight_builtins = 1
+" let g:python_highlight_exceptions = 1
+" let g:python_highlight_string_formatting = 1
+" let g:python_highlight_string_format = 1
+" let g:python_highlight_string_templates = 1
+" let g:python_highlight_space_errors = 1
+" let g:python_highlight_doctests = 1
+" let g:python_highlight_func_calls = 1
+" let g:python_highlight_class_vars = 1
+
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+noremap <C-s> :w<CR>
+
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
@@ -100,11 +143,11 @@ nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>
 
 command Reload :so $MYVIMRC
-command Light :set background=light
-command Dark :set background=dark
+command Light :colorscheme github | :set background=light
+command Dark :colorscheme gruvbox | :set background=dark
 
-nmap <Leader>ha <Plug>GitGutterStageHunk
-nmap <Leader>hu <Plug>GitGutterRevertHunk
+" nmap <Leader>ha <Plug>GitGutterStageHunk
+" nmap <Leader>hu <Plug>GitGutterRevertHunk
 
 
 :autocmd InsertEnter,InsertLeave * set cul!
@@ -127,4 +170,7 @@ let g:fzf_colors = {
     \ 'marker':  ['fg', 'Error'],
     \ 'spinner': ['fg', 'Statement'],
     \}
+
+noremap <C-p> :Files<CR>
+noremap <C-F> :Ag<CR>
 "----- FZF END -----

@@ -1,6 +1,19 @@
 # dotfiles
 
-learning vim!
+My bash and vim setups!
+
+### nvim Setup:
+- config file for neovim is at `~/.config/nvim/init.vim`
+- open neo vim with command `nvim`
+- use following commands to install plugins:
+```
+:PlugInstall [name ...] [#threads]	Install plugins
+:PlugUpdate [name ...] [#threads]	Install or update plugins
+:PlugClean[!]	Remove unlisted plugins (bang version will clean without prompt)
+:PlugUpgrade	Upgrade vim-plug itself
+```
+
+----------
 
 ### Inspirations:
 - ThePrimeagen
